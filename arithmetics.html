@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>חשבון</title>
+ <script>
+    document.createElement("term");
+    document.createElement('result');
+
+  var maxNumber = 10;
+
+  function incrementCounter(countName) {
+     var val = localStorage.getItem(countName) == null ? 0 : localStorage.getItem(countName);
+      localStorage.setItem(countName, parseInt(val) + 1);
+  }
+
+  function submitForm() {
+    var result = document.getElementById("result").value;
+    if ((operation == '+' && term1+term2 == result) || (operation == '-' && term1-term2 == result)) {
+      document.getElementById("result").value = "";
+      incrementCounter("scorrect");
+      if (parseInt(localStorage.getItem("scorrect")) % 10 == 0) {
+        document.getElementById("applause").play();
+      }
+      init();
+      refreshStat();
+      return false;
+    } else {
+      document.getElementById("failSound").play();
+      incrementCounter("swrong");
+      refreshStat();
+      document.getElementById("result").value = "";
+      return false;
+    }
+  }
+
+  function onClearStat() {
+    if (prompt("Do you want to clear results?") == "yes") {
+      localStorage.setItem("scorrect", 0);
+      localStorage.setItem("swrong", 0);
+      refreshStat(); 
+    } 
+ }
+ </script>
+  <style>
+  term {
+      color:#CC00FF;
+      padding: 20px;
+      font-size: 20px;
+  }  
+  result {
+      color: red;
+      padding: 20px;
+      font-size: 20px;
+  }
+  </style>
+
+</head>
+
+<body>
+<div>
+   <audio id="applause" src="applause2.mp3" />
+   <audio id="failSound" src="fail-buzzer-01.mp3" />
+</div>
+<div id='statistics' style='position:absolute;right:5px;direction:rtl' onclick="javascript:onClearStat()">
+    <p style="color:green">נכון: <span id="scorrect"></span></p>
+    <p style="color:red">לא נכון: <span id="swrong"></span></p>
+</div>
+<div id="correctDiv" style="position:absolute;display:none;top:100;right:50;left=50;height=300;background-color:green">
+</div>
+<form style='padding: 100px'>
+  <term id="term1"></term>
+  <term id="op"></term>
+  <term id="term2"></term>
+  <term>=</term>
+  <result><input style="color:#CC00FF; font-size:20px" type='number' id='result'></input></result>
+  <input type='submit' value='הכנס' onclick='javascript:return submitForm()' style="color:#CC00FF; font-size:20px"></input>
+</form>
+<script>
+  
+  function init() {
+    term1 = Math.floor((Math.random() * maxNumber + 1)) % (maxNumber + 1);
+    result = Math.floor((Math.random() * maxNumber + 1)) % (maxNumber + 1);
+    operation = Math.random() >= 0.5 ? '+' : '-';
+    term2 = (operation == '+') ? result - term1 : term1-result;
+    if (term2 < 0 || term2 > maxNumber) {
+      init();
+      return;
+    }
+    document.getElementById("term1").innerHTML = term1;
+    document.getElementById("term2").innerHTML = term2;
+    document.getElementById("op").innerHTML = operation;
+document.getElementById("result").focus();
+  }
+
+  init();
+
+  function refreshStat() {
+    document.getElementById("scorrect").innerHTML = localStorage.getItem("scorrect");
+    document.getElementById("swrong").innerHTML = localStorage.getItem("swrong");
+  }
+  refreshStat();
+</script>
+</body>
+
+</html>
