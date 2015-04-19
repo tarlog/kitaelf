@@ -4,6 +4,7 @@
 <meta charset="UTF-8" >
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>חשבון</title>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
  <script>
     document.createElement("term");
     document.createElement('result');
@@ -25,17 +26,16 @@
       incrementCounter("scorrect");
       if (parseInt(localStorage.getItem("scorrect")) % 10 == 0) {
         document.getElementById("applause").play();
+	runStarAnnimation();
       }
       init();
-      refreshStat();
-      return false;
     } else {
       document.getElementById("failSound").play();
       incrementCounter("swrong");
-      refreshStat();
       document.getElementById("result").value = "";
-      return false;
     }
+    refreshStat();
+    return false;
   }
 
   function onClearStat() {
@@ -45,6 +45,20 @@
       refreshStat(); 
     } 
  }
+
+  function runStarAnnimation() {
+	var annDiv = $('#startAnnimationDiv');
+	annDiv.height(annDiv[0].children[0].height);
+	annDiv.width(annDiv[0].children[0].height);
+	var resultPosition = $('#result').offset();
+	annDiv.css("top",resultPosition.top - (annDiv[0].children[0].height / 2));
+	annDiv.css("left",resultPosition.left - (annDiv[0].children[0].width / 2));
+	annDiv.fadeIn(500);
+//	annDiv.animate({width: '75%', height: '75%'}, 300);
+	var starsPosition = $("#statistics").offset();
+	annDiv.animate({top: starsPosition.top, left: starsPosition.left, opacity: '0'}, 1000);
+	annDiv.hide(500);
+ }
  </script>
   <style>
   term {
@@ -52,11 +66,6 @@
       padding: 10px;
       font-size: 20px;
   }  
-  result {
-      color: red;
-      padding: 10px;
-      font-size: 20px;
-  }
   </style>
 
 </head>
@@ -66,20 +75,25 @@
    <audio id="applause" src="applause2.mp3" />
    <audio id="failSound" src="fail-buzzer-01.mp3" />
 </div>
-<div id='statistics' style='position:absolute;right:5px;direction:rtl' onclick="javascript:onClearStat()">
+<div id='statistics' style='position:fixed;right:5px;direction:rtl' onclick="javascript:onClearStat()">
     <p style="color:green">נכון: <span id="scorrect"></span></p>
     <p style="color:red">לא נכון: <span id="swrong"></span></p>
+    <div id='stars'></div>
 </div>
-<form style='position:absolute;left:50%;top:50%'>
+
+<div id="startAnnimationDiv" style='position:fixed;z-index:100'><img src="blue-star.gif"></div>
+
+<form style='position:fixed;left:50%;top:50%'>
   <term id="term1"></term>
   <term id="op"></term>
   <term id="term2"></term>
   <term>=</term>
-  <result><input style="color:#CC00FF; font-size:20px;padding=10px" type='number' id='result'></input></result>
+  <input style="color:#CC00FF; font-size:20px;padding=10px;width:75px;" type='number' id='result'></input>
   <input type='submit' value='הכנס' onclick='javascript:return submitForm()' style="padding=10px;color:#CC00FF; font-size:20px"></input>
 </form>
 <script>
-  
+  $('#startAnnimationDiv').hide();
+
   function init() {
     term1 = Math.floor((Math.random() * maxNumber + 1)) % (maxNumber + 1);
     result = Math.floor((Math.random() * maxNumber + 1)) % (maxNumber + 1);
@@ -92,17 +106,36 @@
     document.getElementById("term1").innerHTML = term1;
     document.getElementById("term2").innerHTML = term2;
     document.getElementById("op").innerHTML = operation;
-document.getElementById("result").focus();
+    document.getElementById("result").focus();
   }
-
-  init();
 
   function refreshStat() {
-    document.getElementById("scorrect").innerHTML = localStorage.getItem("scorrect");
-    document.getElementById("swrong").innerHTML = localStorage.getItem("swrong");
+    var correct = localStorage.getItem("scorrect");
+    var wrong = localStorage.getItem("swrong");
+    document.getElementById("scorrect").innerHTML = correct != undefined ? correct : 0;
+    document.getElementById("swrong").innerHTML = wrong != undefined ? wrong : 0;
+
+   if (correct != undefined) {
+	document.getElementById("stars").innerHTML = "";
+	correct = parseInt(correct);
+	if (correct >= 10) {
+	  for (i=1; i<=(correct/10); ++i) {
+            addStar("blue-star.gif", "20px");
+	  }
+	}
+    }
   }
-  refreshStat();
   
+
+function addStar(imgSrc, size) {
+  var img = new Image();
+  img.src=imgSrc;
+  img.style.height = size;
+  img.style.width = size;			
+  document.getElementById("stars").appendChild(img);
+}
+  init();
+  refreshStat();
   
 </script>
 
