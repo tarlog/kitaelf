@@ -26,15 +26,17 @@
       incrementCounter("scorrect");
       if (parseInt(localStorage.getItem("scorrect")) % 10 == 0) {
         document.getElementById("applause").play();
-	runStarAnnimation();
+	runStarAnnimation(function() {refreshStat(); init();});
+      } else {
+    	refreshStat();
+	init();
       }
-      init();
     } else {
       document.getElementById("failSound").play();
       incrementCounter("swrong");
       document.getElementById("result").value = "";
+      refreshStat();
     }
-    refreshStat();
     return false;
   }
 
@@ -46,7 +48,7 @@
     } 
  }
 
-  function runStarAnnimation() {
+  function runStarAnnimation(callback) {
 	var annDiv = $('#startAnnimationDiv');
 	annDiv.height(annDiv[0].children[0].height);
 	annDiv.width(annDiv[0].children[0].height);
@@ -57,7 +59,7 @@
 //	annDiv.animate({width: '75%', height: '75%'}, 300);
 	var starsPosition = $("#statistics").offset();
 	annDiv.animate({top: starsPosition.top, left: starsPosition.left, opacity: '0'}, 1000);
-	annDiv.hide(500);
+	annDiv.hide(500, callback);
  }
  </script>
   <style>
