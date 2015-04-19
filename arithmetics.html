@@ -127,8 +127,13 @@
 	document.getElementById("stars").innerHTML = "";
 	correct = parseInt(correct);
 	if (correct >= 10) {
- 	  correct = correct % 100;
- 	  correct = correct % 50;
+ 	  if (correct >= 50) {
+ 	  	if (correct >= 100) {
+ 	  		correct -= 90;
+ 	  	} else {
+ 	  		correct -= 40;
+ 	  	}
+ 	  }
 	  for (i=1; i<=(correct/10); ++i) {
             addStar(getStarImage(), "20px");
 	  }
