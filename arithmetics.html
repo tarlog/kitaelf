@@ -50,8 +50,11 @@
 
   function runStarAnnimation(callback) {
 	var annDiv = $('#startAnnimationDiv');
-	annDiv.height(annDiv[0].children[0].height);
-	annDiv.width(annDiv[0].children[0].height);
+	var img = new Image();
+	img.src= getStarImage();
+	annDiv[0].innerHTML = img;
+	annDiv.height(img.height);
+	annDiv.width(img.height);
 	var resultPosition = $('#result').offset();
 	annDiv.css("top",resultPosition.top - (annDiv[0].children[0].height / 2));
 	annDiv.css("left",resultPosition.left - (annDiv[0].children[0].width / 2));
@@ -124,12 +127,27 @@
 	correct = parseInt(correct);
 	if (correct >= 10) {
 	  for (i=1; i<=(correct/10); ++i) {
-            addStar("blue-star.gif", "20px");
+            addStar(getStarImage(), "20px");
 	  }
 	}
     }
   }
   
+function getStarImage() {
+	var correct = localStorage.getItem("scorrect");
+	if (correct != undefined) {
+		correct = parseInt(correct);
+		if (correct < 50) {
+			return "blue-star.gif";
+		}
+		if (correct < 100) {
+			return "gold-star.gif";
+		}
+		if (correct >= 100) {
+			return "cup-prize.gif";
+		}
+	}
+}
 
 function addStar(imgSrc, size) {
   var img = new Image();
