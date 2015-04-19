@@ -52,7 +52,8 @@
 	var annDiv = $('#startAnnimationDiv');
 	var img = new Image();
 	img.src= getStarImage();
-	annDiv[0].innerHTML = img;
+	annDiv[0].innerHTML = "";
+	annDiv[0].appendChild(img);
 	annDiv.height(img.height);
 	annDiv.width(img.height);
 	var resultPosition = $('#result').offset();
