@@ -16,6 +16,9 @@
 
   function submitForm() {
     var result = document.getElementById("result").value;
+    if (result == undefined || result == null || result.trim() == "") {
+      return false;
+    }
     if ((operation == '+' && term1+term2 == result) || (operation == '-' && term1-term2 == result)) {
       document.getElementById("result").value = "";
       incrementCounter("scorrect");
