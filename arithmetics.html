@@ -54,14 +54,20 @@
 
   function runStarAnnimation(callback) {
 	var annDiv = $('#startAnnimationDiv');
-	var img = new Image();
-	img.src= getStarImage();
 	annDiv[0].innerHTML = "";
-	annDiv[0].appendChild(img);
+	var correct = parseInt(localStorage.getItem("scorrect"));
+	for (i=1; i<=(correct/10); ++i) {
+	        var img = new Image();
+		img.src= getStarImage();
+		img.style.width="5em";
+		img.style.height="5em";
+		annDiv[0].appendChild(img);
+	}
+
 	annDiv.height(img.height);
-	annDiv.width(img.height);
+	annDiv.width(img.height * 5);
 	var resultPosition = $('#result').offset();
-	annDiv.css("top",resultPosition.top - (annDiv[0].children[0].height / 2));
+	annDiv.css("top",resultPosition.top);
 	annDiv.css("left",resultPosition.left - (annDiv[0].children[0].width / 2));
 	annDiv.fadeIn(500);
 //	annDiv.animate({width: '75%', height: '75%'}, 300);
@@ -90,7 +96,7 @@ function randomInt(max) {
 </head>
 
 <body>
-	<h1 style="direction:rtl;color:#CC00FF;position:fixed;left:50%">חשבון לכיתה א</h1>
+	<h1 style="direction:rtl;color:#CC00FF;position:fixed;right:40%">חשבון לכיתה א</h1>
 	<div style="display:none">
    		<audio id="applause" src="applause2.mp3" />
    		<audio id="failSound" src="fail-buzzer-01.mp3" />
