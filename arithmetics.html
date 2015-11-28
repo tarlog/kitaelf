@@ -160,21 +160,21 @@ function randomInt(max) {
    });
 
    $('#radioMode input').change(function() {
-	   var selectedMode = $(this).attr('id');
-	   if (selectedMode === 'radioTillTen') {
+	   	var selectedMode = $(this).attr('id');
+	   	if (selectedMode === 'radioTillTen') {
 		   maxNumber = 10;
 		   multiplier = 1;
-		   } else if (selectedMode === 'radioTillTwenty') {
+		} else if (selectedMode === 'radioTillTwenty') {
 		   maxNumber = 20;
 		   multiplier = 1;
-		   } else if (selectedMode === 'radioTens') {
+	   	} else if (selectedMode === 'radioTens') {
 		   multiplier = 10;
 		   maxNumber = 10;
-		   } else if (selectedMode === 'radioTillHundred') {
+		} else if (selectedMode === 'radioTillHundred') {
 		   multiplier = 1;
 		   maxNumber = 100;
-	   }
-	   init();
+	   	}
+	   	init();
 
    });
 
