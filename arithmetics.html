@@ -143,6 +143,7 @@ function randomInt(max) {
 	     <input type="radio" id="radioTillTen" name="radio" checked="checked"><label for="radioTillTen">עד 10</label>
 	     <input type="radio" id="radioTillTwenty" name="radio"><label for="radioTillTwenty">עד 20</label>
 	     <input type="radio" id="radioTens" name="radio"><label for="radioTens">עשרות עד 100</label>
+	     <input type="radio" id="radioTillHundred" name="radio"><label for="radioTillHundred">עד 100</label>
 	  </div>
   </form>
   </div>
@@ -169,6 +170,9 @@ function randomInt(max) {
 		   } else if (selectedMode === 'radioTens') {
 		   multiplier = 10;
 		   maxNumber = 10;
+		   } else if (selectedMode === 'radioTillHundred') {
+		   multiplier = 1;
+		   maxNumber = 100;
 	   }
 	   init();
 
