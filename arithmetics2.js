@@ -1,0 +1,2 @@
+var level = new function() {
+}
