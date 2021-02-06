@@ -1,0 +1,3 @@
+[submodule "webos-life"]
+	path = webos-life
+	url = https://github.com/tarlog/webos-life.git
